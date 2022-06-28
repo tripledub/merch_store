@@ -19,10 +19,8 @@ RSpec.describe 'Api::V1::Products', type: :request do
     end
 
     describe 'returning all the products and attributes in the store' do
-      let(:products) { JSON.parse(response.body) }
-
       it 'returns all three products' do
-        expect(products.size).to eq(3)
+        expect(json.size).to eq(3)
       end
     end
   end
