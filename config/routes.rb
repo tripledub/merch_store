@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  # get 'products/index'
-  # get 'health_check/index'
-
   namespace :api do
     resources :health_check, only: [:index]
 
