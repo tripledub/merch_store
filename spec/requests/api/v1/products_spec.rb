@@ -36,13 +36,22 @@ RSpec.describe 'Api::V1::Products', type: :request do
     let(:payload) { { price: } }
     let(:id) { mug.id }
 
-    scenario 'vaild price attribute' do
+    before do
       put "/api/v1/products/#{id}", params: {
         product: payload
       }
+    end
 
+    scenario 'vaild price attribute' do
       expect(response).to have_http_status(:success)
       expect(mug.reload.price).to eq(price)
+    end
+
+    context 'when a product can not be updated' do
+      let(:id) { 999 }
+      scenario 'non existant product' do
+        expect(response).to have_http_status(:not_found)
+      end
     end
   end
 end
