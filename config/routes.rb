@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
-  get 'health_check/index'
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  # get 'products/index'
+  # get 'health_check/index'
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  namespace :api do
+    resources :health_check, only: [:index]
+
+    namespace :v1 do
+      resources :products, only: [:index]
+    end
+  end
 end

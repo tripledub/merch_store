@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe 'HealthChecks', type: :request do
-  describe 'GET /index' do
+RSpec.describe 'Api::HealthChecks', type: :request do
+  describe 'GET /api/health_check' do
     it 'returns http success' do
-      get '/health_check/index'
+      get '/api/health_check'
       expect(response).to have_http_status(:success)
     end
   end
