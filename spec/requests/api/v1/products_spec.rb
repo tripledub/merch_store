@@ -62,5 +62,14 @@ RSpec.describe 'Api::V1::Products', type: :request do
         expect(json['message']).to eq('Validation failed: Price is not a number')
       end
     end
+
+    context 'returns a useful status and message when required params are missing' do
+      let(:payload) { nil }
+
+      scenario 'product is missing' do
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json['message']).to eq('param is missing or the value is empty: product')
+      end
+    end
   end
 end

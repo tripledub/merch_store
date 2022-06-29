@@ -14,14 +14,7 @@ module Api
       private
 
       def product_params
-        product_params = params[:product]
-        if product_params
-          product_params.permit(
-            :price
-          )
-        else
-          {}
-        end
+        params.require(:product).permit(:price)
       end
     end
   end
