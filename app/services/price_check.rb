@@ -5,6 +5,10 @@ class PriceCheck
     @items = items
   end
 
+  def self.total(items:)
+    new(items:).total
+  end
+
   def total
     total = items.inject(0) do |subtotal, (code, qty)|
       subtotal + products[code] * qty.to_i

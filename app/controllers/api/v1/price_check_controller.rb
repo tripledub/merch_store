@@ -2,7 +2,7 @@ module Api
   module V1
     class PriceCheckController < ApplicationController
       def create
-        PriceCheck.new(items: query_params[:items]).total.tap do |total|
+        PriceCheck.total(items: query_params[:items]).tap do |total|
           json_response(total)
         end
       end
