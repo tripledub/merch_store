@@ -47,10 +47,19 @@ RSpec.describe 'Api::V1::Products', type: :request do
       expect(mug.reload.price).to eq(price)
     end
 
-    context 'when a product can not be updated' do
-      let(:id) { 999 }
-      scenario 'non existant product' do
+    context 'when a product does not exist' do
+      let(:id) { Product.last.id + 1 }
+      scenario 'product id is out of range' do
         expect(response).to have_http_status(:not_found)
+        expect(json['message']).to eq("Couldn't find Product with 'id'=#{id}")
+      end
+    end
+
+    context 'when price is not of type float' do
+      let(:price) { 'foo' }
+      scenario 'price is a string' do
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json['message']).to eq('Validation failed: Price is not a number')
       end
     end
   end

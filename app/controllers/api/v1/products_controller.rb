@@ -6,6 +6,7 @@ module Api
       end
 
       def update
+        # debugger
         Product.find(params[:id]).tap do |product|
           json_response(product) if product.update!(product_params)
         end
