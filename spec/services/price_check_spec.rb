@@ -8,7 +8,7 @@ RSpec.describe 'PriceCheck', type: :service do
   describe '#total' do
     let(:items) { {} }
 
-    subject { PriceCheck.new.total(items:) }
+    subject { PriceCheck.new(items:).total }
 
     context 'when there are no items' do
       it { is_expected.to eq(0.00) }
