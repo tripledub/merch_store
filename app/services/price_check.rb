@@ -7,7 +7,7 @@ class PriceCheck
 
   def total
     total = items.inject(0) do |subtotal, (code, qty)|
-      subtotal + products[code] * qty
+      subtotal + products[code] * qty.to_i
     end
 
     total.round(2)
