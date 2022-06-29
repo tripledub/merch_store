@@ -1,15 +1,10 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
 - Current Ruby version `3.1.1`, Rails `~> 7.0.3`
 
 - System dependencies
 
-- Configuration
+  - Run `bundle install`
 
 - Database creation
 
@@ -19,9 +14,13 @@ Things you may want to cover:
 
   - `bin/rails db:migrate`
 
+  If you want to test the API with cURL or Postman etc, there are some seeds populate the database and get you started
+
+  - `bin/rails db:seed`
+
 - How to run the test suite
 
-- Services (job queues, cache servers, search engines, etc.)
+  - `bin/rspec spec`
 
 - Deployment instructions
 
