@@ -5,6 +5,16 @@ class Discount
     @items = items
   end
 
+  def discounted_price(code:, price:, qty:)
+    rule = discount_rule(code:, qty:)
+
+    return price unless rule
+
+    (price - (price * rule['discount'] / 100.to_f))
+  end
+
+  private
+
   def discount_rule(code:, qty:)
     rules = discount_rules.select do |rule|
       rule['code'] == code && rule['quantity'] <= qty.to_i
@@ -14,8 +24,6 @@ class Discount
       [-h['quantity'], i]
     end.first
   end
-
-  private
 
   def discount_rules
     @discount_rules ||= DiscountRule.select(

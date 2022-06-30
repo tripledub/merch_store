@@ -10,8 +10,8 @@ RSpec.describe 'Discount', type: :service do
   let!(:mug) do
     create(:product, code: 'MUG', name: 'Reedsy Mug', price: 6.00).tap do |mug|
       create(:discount_rule, product: mug, code: mug.code, quantity: 10, discount: 2)
-      create(:discount_rule, product: mug, code: mug.code, quantity: 45, discount: 8)
-      create(:discount_rule, product: mug, code: mug.code, quantity: 200, discount: 30)
+      create(:discount_rule, product: mug, code: mug.code, quantity: 40, discount: 8)
+      create(:discount_rule, product: mug, code: mug.code, quantity: 150, discount: 30)
     end
   end
 
@@ -20,42 +20,51 @@ RSpec.describe 'Discount', type: :service do
   let(:items) { [] }
 
   describe '#discount rule' do
-    subject { Discount.new(items:).discount_rule(code:, qty:) }
+    subject { Discount.new(items:).discounted_price(code:, price:, qty:) }
 
-    context 'with no matching rule' do
-      let(:code) { 'FOO' }
-      let(:qty) { 0 }
-      it { is_expected.to be_nil }
+    context 'with no matching rule, price remains the same' do
+      let(:code) { hoodie.code }
+      let(:qty) { 1 }
+      let(:price) { hoodie.price }
+      it { is_expected.to eq(hoodie.price) }
     end
 
     context 'matching rules' do
-      let(:items) { %w[HOODIE MUG TSHIRT] }
-      let(:code) { 'TSHIRT' }
-      let(:qty) { 3 }
+      let!(:items) { %w[HOODIE MUG TSHIRT] }
 
-      scenario '3 or more t-shirts' do
-        rule = Discount.new(items:).discount_rule(code: 'TSHIRT', qty: 3)
-        expect(rule['discount']).to eq(30)
+      context '10 or more MUG gives a 2% discount' do
+        let(:price) { 6 }
+        let(:qty) { 10 }
+        let(:code) { 'MUG' }
+        it { is_expected.to eq(5.88) }
       end
 
-      scenario '10 mugs' do
-        rule = Discount.new(items:).discount_rule(code: 'MUG', qty: 10)
-        expect(rule['discount']).to eq(2)
+      context '40 or more MUG gives a 8% discount' do
+        let(:price) { 6 }
+        let(:qty) { 41 }
+        let(:code) { 'MUG' }
+        it { is_expected.to eq(5.52) }
       end
 
-      scenario '11mugs' do
-        rule = Discount.new(items:).discount_rule(code: 'MUG', qty: 11)
-        expect(rule['discount']).to eq(2)
+      context '150 or more MUG gives a 30% discount' do
+        let(:price) { 6 }
+        let(:qty) { 1000 }
+        let(:code) { 'MUG' }
+        it { is_expected.to eq(4.2) }
       end
 
-      scenario '45 mugs' do
-        rule = Discount.new(items:).discount_rule(code: 'MUG', qty: 45)
-        expect(rule['discount']).to eq(8)
+      context '3 or more TSHIRT gives 30% discount' do
+        let(:price) { 15 }
+        let(:qty) { 4 }
+        let(:code) { 'TSHIRT' }
+        it { is_expected.to eq(10.5) }
       end
 
-      scenario '201 mugs' do
-        rule = Discount.new(items:).discount_rule(code: 'MUG', qty: 201)
-        expect(rule['discount']).to eq(30)
+      context 'less than 3 TSHIRT gives 0% discount' do
+        let(:price) { 15 }
+        let(:qty) { 2 }
+        let(:code) { 'TSHIRT' }
+        it { is_expected.to eq(tshirt.price) }
       end
     end
   end

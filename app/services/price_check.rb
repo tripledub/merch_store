@@ -11,32 +11,23 @@ class PriceCheck
   end
 
   def total
-    total = items.inject(0) do |subtotal, (code, qty)|
-      subtotal + price_with_discount(code:, qty:)
-    end
-
-    total.round(2)
+    items.inject(0) do |subtotal, (code, qty)|
+      subtotal + price_lookup(code:, qty:)
+    end.round(2)
   end
 
   private
 
-  def price_with_discount(code:, qty:)
-    original_price = products[code]
-    rule = rules.discount_rule(code:, qty:)
+  def discounter
+    @discounter ||= @discounts.new(items: items.keys)
+  end
 
-    if rule
-      discount_rate = rule['discount']
-      (original_price - (original_price * discount_rate / 100)) * qty.to_i
-    else
-      original_price * qty.to_i
-    end
+  def price_lookup(code:, qty:)
+    price = products[code]
+    discounter.discounted_price(code:, price:, qty:).to_f * qty.to_i
   end
 
   def products
     @products ||= Product.where(code: items.keys).pluck(:code, :price).to_h
-  end
-
-  def rules
-    @rules ||= @discounts.new(items: items.keys)
   end
 end

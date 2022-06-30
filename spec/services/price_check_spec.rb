@@ -44,8 +44,8 @@ RSpec.describe 'PriceCheck', type: :service do
       let!(:mug) do
         create(:product, code: 'MUG', name: 'Reedsy Mug', price: 6.00).tap do |mug|
           create(:discount_rule, product: mug, code: mug.code, quantity: 10, discount: 2)
-          create(:discount_rule, product: mug, code: mug.code, quantity: 45, discount: 8)
-          create(:discount_rule, product: mug, code: mug.code, quantity: 200, discount: 30)
+          create(:discount_rule, product: mug, code: mug.code, quantity: 40, discount: 8)
+          create(:discount_rule, product: mug, code: mug.code, quantity: 150, discount: 30)
         end
       end
 
