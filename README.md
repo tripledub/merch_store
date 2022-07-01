@@ -1,3 +1,9 @@
+# About me
+
+Living in Mallorca, Spain I like to take full advantage of the opportunities to be outdoors. I enjoy a host of activities including road cycling, running, hiking and swimming in the ocean. When I'm not outdoors, I like to read, mainly technical and non-fiction titles. I've worked professionally with Internet technologies for over twenty years, specialising mainly in back-end development for the past fifteen. In this time, I've risen to the position of Lead Developer with my current employer, Hexopay.
+
+I'm extremely proud of the team I've built and what we have achieved with such a small team. One really great feature we delivered with myself as lead was a hosted fields feature that allows merchants to have full control over branding and form layout without having to have cardholder data pass through their systems, making them liable for PCI standards compliance. Previously, I played a major part in the team that delivered ‘Brands into Warehouse’ at Silk Fred. This lead to an instant impact on profitability and customer satisfaction by streamlining the optimizing the distribution and returns process when products are sourced from multiple warehouses.
+
 # README
 
 - Current Ruby version `3.1.1`, Rails `~> 7.0.3`
@@ -21,8 +27,6 @@
 - How to run the test suite
 
   - `bin/rspec spec`
-
-- Deployment instructions
 
 ## Testing with cURL
 
